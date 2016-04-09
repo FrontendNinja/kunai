@@ -1,0 +1,35 @@
+// Learn how to use @font-face - Docs: http://nicewebtype@mixin $fontFamily: 'OpenSans', $fontStyle:normal, $fontWeight:400, $root:'../../fonts/Open_Sans/', $file:'OpenSans-Regular.ttf'){
+// 	$src: "@{root}@{file}";
+// 	@font-face{
+// 		font-family: '@{fontFamily}'; // 'family name' 
+// 		font-style: $fontStyle; // normal, italic, oblique 
+// 		font-weight: $fontWeight; // 100 (This is light), 400 (This is normal), 900 (This is bold) 
+// 		src: url('@{src}');
+// 	}
+// }
+
+@mixin font-face($fontFamily: 'OpenSans', $fontStyle:normal, $fontWeight:400, $root:'../../fonts/Open_Sans/', $file:'OpenSans-Regular.ttf'){
+	$src: "#{$root}#{$file}";
+	@font-face{
+		font-family: '#{$fontFamily}'; // 'family name'
+		font-style: $fontStyle; // normal, italic, oblique
+		font-weight: $fontWeight; // 100 (This is light), 400 (This is normal), 900 (This is bold).
+		src: url('#{$src}');
+	}
+}
+
+$Open-SansPath: '../../fonts/Open_Sans/';
+
+@include font-face('OpenSans',normal,300,$Open-SansPath,'OpenSans-Light.ttf');
+@include font-face('OpenSans',italic,300,$Open-SansPath,'OpenSans-LightItalic.ttf');
+@include font-face('OpenSans',normal,400,$Open-SansPath,'OpenSans-Regular.ttf');
+@include font-face('OpenSans',italic,400,$Open-SansPath,'OpenSans-Italic.ttf');
+@include font-face('OpenSans',normal,600,$Open-SansPath,'OpenSans-Semibold.ttf');
+@include font-face('OpenSans',italic,600,$Open-SansPath,'OpenSans-SemiboldItalic.ttf');
+@include font-face('OpenSans',normal,800,$Open-SansPath,'OpenSans-Bold.ttf');
+@include font-face('OpenSans',italic,800,$Open-SansPath,'OpenSans-BoldItalic.ttf');
+@include font-face('OpenSans',normal,900,$Open-SansPath,'OpenSans-ExtraBold.ttf');
+@include font-face('OpenSans',italic,900,$Open-SansPath,'OpenSans-ExtraBoldItalic.ttf');
+
+
+$Open-Sans: "OpenSans", Arial, sans-serif;

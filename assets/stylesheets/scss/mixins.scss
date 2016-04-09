@@ -1,0 +1,421 @@
+// DOCS: http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/
+// Set a rem font size with pixel fallback
+
+@function calculateRem($size, $base-fontsize) {
+  $remSize: $size / $base-fontsize;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size, $base-fontsize) {
+  font-size: $size;
+  font-size: calculateRem($size, $base-fontsize);
+}
+
+// USAGE:
+// p { 
+//  @include font-size(14px) 
+// }
+// ------------------------------------
+
+
+// Breakpoints
+// ====================================
+
+$screen-xs:                  480px !default;
+$screen-xs-min:              $screen-xs !default;
+
+$screen-sm:                  768px !default;
+$screen-sm-min:              $screen-sm !default;
+
+$screen-md:                  992px !default;
+$screen-md-min:              $screen-md !default;
+
+$screen-lg:                  1200px !default;
+$screen-lg-min:              $screen-lg !default;
+
+$screen-xl:                   1400px !default;
+$screen-xl-min:              $screen-xl !default;
+
+$screen-xxl:                  1800px !default;
+$screen-xxl-min:              $screen-xxl !default;
+
+$screen-xs-max:              ($screen-sm-min - 1) !default;
+$screen-sm-max:              ($screen-md-min - 1) !default;
+$screen-md-max:              ($screen-lg-min - 1) !default;
+$screen-lg-max:              ($screen-xl-min - 1) !default;
+$screen-xl-max:              ($screen-xxl-min - 1) !default;
+
+// Google Suggested breakpoints
+// ==========================================
+
+$mobile-s:                    320px !default;
+$mobile-s-min:                $mobile-s !default;
+$mobile-m:                    375px !default;
+$mobile-m-min:                $mobile-m !default;
+$mobile-l:                    425px !default;
+$mobile-l-min:                $mobile-l !default;
+$tablet:                      768px !default;
+$tablet-min:                  $tablet !default;
+$laptop:                      1024px !default;
+$laptop-min:                  $laptop !default;
+$laptop-l:                    1440px !default;
+$laptop-l-min:                $laptop-l !default;
+$desktop-4k:                  2560px !default;
+$desktop-4k-min:              $desktop-4k !default;
+
+$mobile-s-max:                ($mobile-m -1) !default;
+$mobile-m-max:                ($mobile-l -1) !default;
+$mobile-l-max:                ($tablet -1) !default;
+$tablet-max:                  ($laptop -1) !default;
+$laptop-max:                  ($laptop-l -1) !default;
+$laptop-l-max:                ($desktop-4k -1) !default;
+
+
+// Mobile Small screens
+@mixin bp-mobile-s-up{
+  @media only screen{ @content; }
+}
+@mixin bp-mobile-s-only{
+  @media only screen and (max-width: $mobile-s-max){ @content; }
+}
+
+// Mobile Medium screens
+@mixin bp-mobile-m-up{
+  @media only screen and (min-width: $mobile-m-min) { @content; }
+}
+@mixin bp-mobile-m-only{
+  @media only screen and (min-width: $mobile-m-min) and (max-width: $mobile-m-max) { @content; }
+}
+
+// Mobile Large screens
+@mixin bp-mobile-l-up{
+  @media only screen and (min-width: $mobile-l-min) { @content; }
+}
+@mixin bp-mobile-l-only{
+  @media only screen and (min-width: $mobile-l-min) and (max-width: $mobile-l-max) { @content; }
+}
+
+// Tablet screens
+@mixin bp-tablet-up{
+  @media only screen and (min-width: $tablet-min) { @content; }
+}
+@mixin bp-tablet-only{
+  @media only screen and (min-width: $tablet-min) and (max-width: $tablet-max) { @content; }
+}
+
+// Laptop screens
+@mixin bp-laptop-up{
+  @media only screen and (min-width: $laptop-min) { @content; }
+}
+@mixin bp-laptop-only{
+  @media only screen and (min-width: $laptop-min) and (max-width: $laptop-max) { @content; }
+}
+
+// Laptop Large screens
+@mixin bp-laptop-l-up{
+  @media only screen and (min-width: $laptop-l-min) { @content; }
+}
+@mixin bp-laptop-l-only{
+  @media only screen and (min-width: $laptop-l-min) and (max-width: $laptop-l-max) { @content; }
+}
+
+// desktop-4k screens
+@mixin bp-4k-up{
+  @media only screen and (min-width: $desktop-4k-min) { @content; }
+}
+
+@mixin bp-4k-only{
+  @media only screen and (min-width: $desktop-4k-min) { @content; }
+}
+
+
+// Bootstrap Breakpoints
+
+// Extra Small screens
+@mixin bp-xs-up {
+  @media only screen { @content; } /* Define mobile styles */
+}
+@mixin bp-xs-only {
+  @media only screen and (max-width: $screen-xs-max) { @content; }
+}
+
+// Small screens
+@mixin bp-sm-up {
+  @media only screen and (min-width: $screen-sm-min) { @content; }
+}
+@mixin bp-sm-max {
+  @media only screen and (max-width: $screen-sm-max) { @content; }
+}
+@mixin bp-sm-only {
+  @media only screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { @content; }
+}
+
+// Medium screens
+@mixin bp-md-up {
+  @media only screen and (min-width: $screen-md-min) { @content; }
+}
+@mixin bp-md-max {
+  @media only screen and (max-width: $screen-md-max) { @content; }
+}
+@mixin bp-md-only {
+  @media only screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) { @content; }
+}
+
+// Large screens
+@mixin bp-lg-up {
+  @media only screen and (min-width: $screen-lg-min) { @content; }
+}
+@mixin bp-lg-max {
+  @media only screen and (max-width: $screen-lg-max) { @content; }
+}
+@mixin bp-lg-only {
+  @media only screen and (min-width: $screen-lg-min) and (max-width: $screen-lg-max) { @content; }
+}
+
+// Extra Large screens
+@mixin bp-xl-up {
+  @media only screen and (min-width: $screen-xl-min) { @content; }
+}
+@mixin bp-xl-max {
+  @media only screen and (max-width: $screen-xl-max) { @content; }
+}
+@mixin bp-xl-only {
+  @media only screen and (min-width: $screen-xl-min) and (max-width: $screen-xl-max) { @content; }
+}
+
+@mixin bp-xxl-up {
+  @media only screen and (min-width: $screen-xxl-min) { @content; }
+}
+
+// USAGE:
+// .sidebar {
+//   width: 75%;
+//   @include bp-lg-only { width: 60%; }
+//   @include bp-md-only { width: 80%; }
+//   @include bp-sm-only { width: 95%; }
+// }
+// ------------------------------------
+
+
+// SVG background images with PNG and retina fallback
+// ====================================
+
+// All in all you need this:
+
+// • pattern.svg
+// • pattern.png
+// • pattern@2x.png
+
+$image-path: '../img' !default;
+$fallback-extension: 'png' !default;
+$retina-suffix: '@2x';
+
+@mixin background-image($name, $size:false){
+    background-image: url(#{$image-path}/#{$name}.svg);
+    @if($size){
+        background-size: $size;
+    }
+    .no-svg &{
+        background-image: url(#{$image-path}/#{$name}.#{$fallback-extension});
+
+        @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+          background-image: url(#{$image-path}/#{$name}#{$retina-suffix}.#{$fallback-extension});
+        }
+    }
+}
+
+// USAGE:
+// body {
+//   @include background-image('pattern');
+// }
+
+// ------------------------------------
+
+
+// Animations and keyframes
+// ====================================
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}
+
+// USAGE:
+// @include keyframes(slide-down) {
+//   0% { opacity: 1; }
+//   90% { opacity: 0; }
+// }
+
+// .element {
+//   width: 100px;
+//   height: 100px;
+//   background: black;
+//   @include animation('slide-down 5s 3');
+// }
+
+// ------------------------------------
+
+// Transitions
+// ====================================
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+// USAGE:
+// a {
+//   color: gray;
+//   @include transition(color .3s ease);
+//   &:hover {
+//     color: black;
+//   }
+// }
+
+// ------------------------------------
+
+
+// Cross browser opacity
+// ====================================
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+// USAGE:
+// .faded-text {
+//   @include opacity(0.8);
+// }
+
+
+@mixin grayscale($desaturate){
+  @if $desaturate>0 {
+    filter: gray; /* IE6-9 */
+    filter: grayscale($desaturate); /* Microsoft Edge and Firefox 35+ */
+    -webkit-filter: grayscale($desaturate); /* Google Chrome, Safari 6+ & Opera 15+ */
+  }
+  @else{
+    filter: none;
+    -webkit-filter: grayscale($desaturate); /* Google Chrome, Safari 6+ & Opera 15+ */
+  }
+}
+
+// USAGE:
+// img {
+//   @include grayscale(1);
+// }
+
+// // Disable grayscale on hover
+// img:hover {
+//   @include grayscale(0);
+// }
+
+// ------------------------------------
+
+// Visually hide an element
+// ====================================
+
+%visuallyhidden {
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+.visually-hidden {
+  @extend %visuallyhidden;
+}
+
+// USAGE:
+// <button class="mobile-navigation-trigger">
+//   <b class="visually-hidden">Open the navigation</b>
+//   <img src="img/mobile-navigation-icon.svg">
+// </button>
+
+
+// Visually hide an element
+// ====================================
+// DOCS: https://web-design-weekly.com/2013/05/12/handy-sass-mixins/
+// An easy way to truncate text with an ellipsis. Requires the element to be block or inline-block.
+
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// USAGE:
+// .text-truncate {
+//   @include text-truncate;
+// }
+
+
+// Placeholder
+// ====================================
+// DOCS: http://stackoverflow.com/questions/17181849/placeholder-mixin-scss-css and http://sass-lang.com/documentation/file.SASS_REFERENCE.html#mixin-content
+// An easy way style a placeholder crossbrowser
+
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+// USAGE:
+// .foo {
+//   @include placeholder {
+//     color: green;
+//   }
+// }
+
+// @include placeholder {
+//   color: red;
+// }

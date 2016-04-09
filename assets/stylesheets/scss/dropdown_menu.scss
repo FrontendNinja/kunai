@@ -1,0 +1,97 @@
+// This is a simple dropdown menu that will help you to save time.
+// READ THIS: The best practice if you want to customize the dropdown menu is to do it on your style.less 
+// Quick read: DO NOT EDIT here.
+
+// ===================================
+// Sintaxis to CUSTOMIZE Dropdown
+// ===================================
+
+// Just Copy this less sintaxis on your style.less archive and change everything you want.
+// you can delete these $colors and put your own.
+
+// $lightColor:				#fff;
+// $darkColor:				#333;
+
+// #main-nav{
+// 	ul{ // padding: 0px; // Customize This!
+
+// 		li{ // Customize This!
+
+// 			a{  color: $lightColor; // Customize This!
+// 				&:hover{ color: $darkColor; // Customize This! 
+// 				}
+// 			}
+// 			&:hover { 
+// 				>a{ color: $darkColor; } // Customize This!
+// 			}
+// 		}
+// 		ul{ background-color: $darkColor; // Customize This!
+// 			li{
+// 				&:hover{ background-color: darken($darkColor, 10%); // Customize This!
+// 					a{ color: $lightColor; } // Customize This!
+// 				}
+// 				>a{ color: $lightColor; // Customize This! 
+//				}
+// 			}//end li
+
+//			>li { &:hover{  background-color: darken($darkColor, 10%);  // Customize This!
+//					a{ color: $lightColor; } // Customize This!
+//				}
+//				a{ }
+//			}//end li
+// 		}//end ul
+// 	}//end ul
+// }//end #main-nav
+
+
+// This is will make your dropdown work, don't change it unless you know what you are doing.
+#main-nav{
+	ul{
+		margin: 0px;
+		vertical-align: top;
+		display: inline-block;
+
+		li{
+			margin: 0px;
+			float: left;
+			list-style-type: none; 
+
+			a{ 
+				display: inline-block; 
+				
+				&:hover{
+					text-decoration: none;
+				}
+			}
+			&:hover {  position: relative; 
+				>ul{ display: block;}
+			}
+		}
+		ul{
+			padding: 0px;
+			top: 100%;
+			left: 0%;
+			min-width: 120px;
+			display: none;
+			position: absolute;
+
+			li{
+				padding: 0px;
+				width: 100%;
+				border:none;
+				text-align: center; 
+				float: none;
+
+				>a{
+					display: block;
+					// padding: 10px; 
+				}
+			}//end li
+
+			ul{
+				top: 0;
+				left: 100%;
+			}//end ul
+		}//end ul
+	}//end ul
+}//end #main-nav
