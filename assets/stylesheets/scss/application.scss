@@ -95,6 +95,15 @@ blockquote{}
   margin-bottom: 10px;
   @include font-size(14px, $base-fontsize);
 }
+
+%placeholder{ color: darken($white, 10%); }
+
+.searchform{
+  :-moz-placeholder{ @extend %placeholder; }
+  ::-moz-placeholder{ @extend %placeholder; }
+  :-ms-input-placeholder { @extend %placeholder; }
+}
+
 // Combine .form-container with padding and f-width for pretty forms.
 input[type="text"], 
 input[type="number"], 
@@ -145,10 +154,19 @@ input[type="submit"]{
 .t-left{ text-align: left; }
 .t-right{ text-align: right; }
 .t-center{ text-align: center; }
+.t-justify{ text-align: justify; }
+
+.big { @include font-size(21px,$base-fontsize); }
+.small { @include font-size(11px,$base-fontsize); }
 
 // Usefull for templates
-@for $i from 1 through 10{
-  $pixels: 5*$i;
+@for $i from 0 through 100{
+  $pixels: 0;
+  @if $i>0 {
+    $pixels: 5*$i;
+  } @else{
+    $pixels: 0;
+  }
 
   .m-t-#{$pixels}{ margin-top: $pixels + px; }
   .m-r-#{$pixels}{ margin-right: $pixels + px; }
@@ -182,6 +200,25 @@ input[type="submit"]{
   &:hover{ color: $red; }
 }
 
+.alert{
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: .9em;
+  line-height: 1.4em;
+  border: 1px solid $gray-3;
+}
+
+@include alert-primary('success', $success);
+@include alert-primary('info', $info);
+@include alert-primary('warning', $warning);
+@include alert-primary('danger', $danger);
+
+.alert-primary{
+  color: $white;
+  background-color: $primary;
+  border-color: darken($primary, 15%);
+}
 
 
 // Wordpress Gallery
@@ -238,62 +275,3 @@ input[type="submit"]{
 // (Section Name)
 // ====================================
 
-
-
-
-// Searchform
-// ====================================
-
-#searchform{
-    :-moz-placeholder{ color: darken(white, 30%);}
-    ::-moz-placeholder{ color: darken(white, 30%);}
-    :-ms-input-placeholder { color: darken(white, 30%);}
-}
-
-
-// Media Queries
-// ====================================
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: $screen-lg-min) { }// Large devices
-
-/* Midum devices only (desktops, from 992px to 1200px) */
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) { }// Midum devices only
-
-/* Medium devices and up (desktops, 992px and up) */
-@media (min-width: $screen-md-min) { }// Midum devices and up
-
-/* Small devices only (tablets, from 768px to 992px) */
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { }// Small devices only
-
-/* Small devices and up (tablets, 768px and up) */
-@media (min-width: $screen-sm-min) { }// Small devices and up
-
-/* Extra small devices (phones, less than 768px) */
-@media (max-width: $screen-xs-max) { 
-  .admin-bar-fix{ margin-top: 0px; }
-  .header-fix-size{ display: none; }
-
-  .navbar-header{ cursor: pointer; }
-  .navbar-brand{
-      //margin:0; color: white; font-weight: 400;
-  }
-
-  #main-nav{
-    ul{ width: 100%; padding: 0;
-      li{
-        width: 100%;
-        a{
-          display: block;
-          &:hover{ }
-        }
-
-        >ul{
-          min-width: 100%;
-          position: relative;
-          display: block;
-        }
-      }// li
-    }// ul
-  }// #main-nav
-}

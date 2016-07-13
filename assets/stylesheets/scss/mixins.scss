@@ -187,12 +187,18 @@ $laptop-l-max:                ($desktop-4k -1) !default;
   @media only screen and (min-width: $screen-xxl-min) { @content; }
 }
 
+@mixin bp-from-to($min-width, $max-width){
+ @media only screen and (min-width: $min-width) and (max-width: $max-width) { @content; } 
+}
+
+
 // USAGE:
 // .sidebar {
 //   width: 75%;
 //   @include bp-lg-only { width: 60%; }
 //   @include bp-md-only { width: 80%; }
 //   @include bp-sm-only { width: 95%; }
+//   @include bp-from-to(100px, $screen-sm-min) { width: 100%; }
 // }
 // ------------------------------------
 
@@ -419,3 +425,17 @@ $retina-suffix: '@2x';
 // @include placeholder {
 //   color: red;
 // }
+
+// Alert Styles
+// ====================================
+
+@mixin alert-primary($alert-type, $color){
+  .alert-#{$alert-type}{
+    color: darken($color, 65%);
+    background-color: $color;
+    border-color: darken($color, 35%);
+  }
+}
+
+// USAGE:
+// @include alert-primary('success', $success);
