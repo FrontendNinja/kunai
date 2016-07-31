@@ -1,49 +1,28 @@
 <?php 
-/**
-* Image Selector
-* Return an image selector with variable url and attr.
-*
-* @param    $url       string    (Required)    The image url.
-* @param    $attr      array     (Optional)    Image attributes. (title, alt, etc.)
-* @return   Html selector. If no url is passed, returns an alert error.
+/*
+* You write all your custom functions here.
+* Don't close the first php tag to avoid php issues.
 */
 
-function image_selector( $url, $attr ){
-  if(!empty($url)){
-    if(!empty($attr)){
-      foreach ($attr as $key => $attribute) {
-        $attributes .= $key.'="'.strval($attribute).'" ';
-      }
-    }
-    $html .= '<img src="'.$url.'" '.$attributes.'>';    
-  }else{
-    $html .= '<div class="alert alert-danger">Error: La función image_selector necesita una URL para funcionar correctamente.</div>';
-  }
+function the_page_styles(){
+  global $aFenOptions;
 
-  return $html;
-}
+  $aMainSettings        = !empty($aFenOptions['apparience']['main-settings']) ? $aFenOptions['apparience']['main-settings'] : '';
+  $aExtra               = !empty($aFenOptions['apparience']['extra']) ? $aFenOptions['apparience']['extra'] : '';
+  $aAlerts              = !empty($aFenOptions['apparience']['alerts']) ? $aFenOptions['apparience']['alerts'] : '';
 
-/**
-* Slugify
-* Convert any string to its slug version.
-*
-* @param      $text      string    (Required)    String to convert to slug.
-* @return     string     Converted to slug.
-*/
-function slugify($text){
-  // replace non letter or digits by -
-  $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-  // transliterate
-  $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-  // remove unwanted characters
-  $text = preg_replace('~[^-\w]+~', '', $text);
-  // trim
-  $text = trim($text, '-');
-  // remove duplicate -
-  $text = preg_replace('~-+~', '-', $text);
-  // lowercase
-  $text = strtolower($text);
-  if (empty($text)) { return 'n-a'; }
+  $aHeader              = !empty($aFenOptions['apparience']['header']) ? $aFenOptions['apparience']['header']['ace_html_header'] : '';
+  $aFooter              = !empty($aFenOptions['apparience']['footer']) ? $aFenOptions['apparience']['footer'] : '';
 
-  return $text;
+  $sLogotypeHeader      = !empty($aMainSettings['logotype_header']) ? $aMainSettings['logotype_header'] : '';
+  $sLogotypeHeaderAttr  = array( 'alt' => get_bloginfo('name'), 'title' => get_bloginfo('name') );
+  $sFavicon             = !empty($aMainSettings['favicon']) ? $aMainSettings['favicon'] : '';
+
+  $aExtraCSS = !empty($aExtra['ace_css_custom']) ? array(
+        'rules'     => $aExtra['ace_css_custom'],
+        ) : '';
+
+  $aSectionStyles = !empty($aExtra['ace_css_custom']) ? array( $aExtra ) : array();
+
+  echo is_array($aSectionStyles) ? get_page_styles($aSectionStyles) : '';
 }

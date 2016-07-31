@@ -220,6 +220,30 @@ input[type="submit"]{
   border-color: darken($primary, 15%);
 }
 
+.dropdown{
+  li{
+    position: relative;
+    &:hover{
+      > ul{ display: block; }
+    }
+
+    a{ display: block; }
+
+    > ul{ 
+      display: none; 
+      min-width: 120px; // You can change this width for whatever you need.
+      position: absolute; 
+      left: 0;
+      top: 100%; 
+
+      ul{
+        top: 0;
+        left: 100%;
+      }
+    }
+  }
+}
+
 
 // Wordpress Gallery
 // ====================================
@@ -255,8 +279,6 @@ input[type="submit"]{
 // ====================================
 
 // #main-header{ }
-
-// @import "dropdown_menu.scss"; // Use this Dropdown Menu to save time
 
 
 // Bootstrap collapse classese

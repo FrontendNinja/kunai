@@ -15,9 +15,12 @@ require_once( 'includes/fen-scripts-n-style-enqueue.php' );
 require_once( 'includes/fen-thumbnail-size.php' );
 
 /* FEN Functions */
-require_once( 'includes/fen-post-related-functions.php' );
-require_once( 'includes/fen-get-page-styles.php' );
-require_once( 'includes/fen-get-breadcrumbs.php' );
+require_once( 'includes/fen-functions.php' );
+
+
+/* FEN Templates */
+require_once( 'includes/fen-template-functions.php' );
+require_once( 'includes/fen-template-hooks.php' );
 
 /* Add Here your Custom Functions */
 require_once( 'includes/fen-custom-functions.php' );

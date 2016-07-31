@@ -1,5 +1,10 @@
-  <footer>
-    <?php // nw_footer_main_nav(); ?>
+<?php
+  global $aFenOptions;
+
+  $sFooter              = !empty($aFenOptions['apparience']['footer']) ? $aFenOptions['apparience']['footer'] : ''; ?>
+
+  <footer id="main-footer">
+    <?php // fen_footer_main_nav(); ?>
 
     <div class="legales">
       <div class="container">
@@ -7,7 +12,7 @@
           <div class="col-xs-6 copyright" itemscope itemtype="http://schema.org/Organization">
             <p><span itemprop="name"><?php bloginfo('name'); ?></span> © <?php echo date('Y'); ?></p>
           </div>
-          <div class="col-xs-6" itemscope itemtype="http://schema.org/ProfessionalService">
+          <div class="col-xs-6 t-right" itemscope itemtype="http://schema.org/ProfessionalService">
             <p>Developed by <a href="http://www.frontend.ninja" class="fen-website" target="_blank" itemprop="url">frontend<span>.ninja</span></a></p>
           </div>
         </div><!--.row-->

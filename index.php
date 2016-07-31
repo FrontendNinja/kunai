@@ -1,23 +1,16 @@
-<?php get_header(); ?>
+<?php 
 
-	<?php if (have_posts()) : // Show latest posts as default ?>
-		
-		<?php while (have_posts()) : the_post(); ?>
-			<article>
-				<header>
-					<?php the_title('<h2>','</h2>'); ?>
-				</header>
+get_header();
 
-				<?php the_excerpt(); ?>
+  if (have_posts()) : // Show latest posts as default
 
-				<footer>
-					<?php the_tags('',',',''); ?>
-				</footer>
-			</article>
-		<?php endwhile; ?>
-		<?php wp_reset_postdata(); ?>
+    while (have_posts()) : the_post();
 
-	<?php endif;?>
+      do_action('fen_post_content');
 
+    endwhile;
+    wp_reset_postdata();
 
-<?php get_footer(); ?>
+    endif;
+
+get_footer(); ?>

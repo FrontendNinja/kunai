@@ -4,9 +4,8 @@
 *
 * Using post tags, get related posts.
 * @return echo unordered list with related posts.
-* Usage: fen_related_posts();
+* It's not necessary to echo to display value, ex: fen_related_posts();
 */
-// Related Posts Function (call using fen_related_posts(); )
 function fen_related_posts() {
   echo '<ul id="related-posts">';
   global $post;
@@ -31,12 +30,12 @@ function fen_related_posts() {
   }
   wp_reset_query();
   echo '</ul>';
-} /* end bones related posts function */
+}
 
 /**
 * Paginate Links
 * @return Archive pagination links.
-* Usage: fen_paginate_links();
+* It's not necessary to echo to display tags, ex: fen_paginate_links();
 */
 function fen_paginate_links(){
   // DOCS: http://codex.wordpress.org/Function_Reference/paginate_links
@@ -72,6 +71,7 @@ function fen_paginate_links(){
 /**
  * This is a modified the_author_posts_link() which just returns the link.
  * @return author's link
+ * It's necessary to echo to display value, ex: echo fen_get_the_author_link();
  */
 function fen_get_the_author_link() {
   global $authordata;
@@ -91,7 +91,7 @@ function fen_get_the_author_link() {
 * 
 * @param  $separator      string (optional)    Item's separator. Default: ', '
 * @return Categories links.
-* It's necesary to echo the function when using it, ex: echo fen_categories();
+* It's necessary to use echo to display value, ex: echo fen_categories();
 */
 function fen_categories($separator = ', '){
   $categories = get_the_category();
@@ -111,7 +111,7 @@ function fen_categories($separator = ', '){
 * 
 * @param  $separator      string (optional)    Item's separator. Default: ', '
 * @return Post Tag links
-* Its necesary to echo the function when using it, ex: echo fen_tags();
+* It's necessary to echo to display value, ex: echo fen_tags();
 */
 function fen_tags($separator = ', '){
   $posttags = get_the_tags();

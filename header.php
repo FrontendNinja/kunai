@@ -8,66 +8,68 @@
 <head>
   
   <meta charset="UTF-8">
-  
-  <meta name="author" content="The NuevaWeb Team">
-  <title><?php bloginfo('name'); ?> | <?php is_home() ? bloginfo('description') : wp_title(''); ?></title>
+  <meta name="author" content="Front End Ninja"><?php 
+  $sHomeTitle = get_bloginfo('description') . " | " . get_bloginfo('name'); // Docs: https://moz.com/learn/seo/title-tag
+  $sElseTitle = trim(wp_title('', false)) . " | " . get_bloginfo('name'); ?>
 
-  <?php // Load styles and scripts from functions.php nw_enqueue_scripts() function ?>
-  <?php
-  // get data from Theme/Settings/Header
-  $data_header = get_option( 'APF_Fen' )['header']['ace_html_header'];
-  // get data from Theme/Settings/Apparience
-  $data_apparience = get_option( 'APF_Fen' )['apparience']; 
-  $da_logotype = $data_apparience['main-settings']['logotype'];
-  $da_logotype_mobile = $data_apparience['main-settings']['logotype_mobile'];
-  $da_logotype_tag_line_mobiles = $data_apparience['main-settings']['logotype_tag_line_mobiles'];
-  $da_logotype_tag_line = $da_logotype_tag_line_mobiles ? $data_apparience['main-settings']['logotype_tag_line'] : false;
-  $da_favicon = $data_apparience['main-settings']['favicon'];
+  <title><?php echo is_home() ? $sHomeTitle : $sElseTitle; ?></title>
 
-  $da_color = $data_apparience['colors'];
+  <?php 
+  /*
+  * Styles and scripts loaded from fen-scripts-n-style-enqueue.php
+  */
 
-  $da_font_size_number = $data_apparience['font_size']['size'];
-  $da_font_size = $data_font_size_number ? $da_font_size_number.$data_apparience['font_size']['unit'] : '';
-  $da_custom_css = $data_apparience['extra']['ace_css_custom']; ?>
+  global $aFenOptions;
 
-  <link rel="apple-touch-icon" href="<?php bloginfo('template_url'); ?>/assets/images/apple-icon-touch.png">
-  <link rel="icon" href="<?php echo $da_favicon ? $da_favicon : get_bloginfo('template_url').'/assets/images/favicon.png'; ?>">
-  <!--[if IE]>
-    <link rel="shortcut icon" href="<?php bloginfo('template_url'); ?>/assets/images/favicon.ico">
-  <![endif]-->
-  <meta name="msapplication-TileColor" content="#be1e2d">
-  <meta name="msapplication-TileImage" content="<?php bloginfo('template_url'); ?>/assets/images/win8-tile-icon.png">
+  $aMainSettings        = !empty($aFenOptions['apparience']['main-settings']) ? $aFenOptions['apparience']['main-settings'] : '';
+  $aExtra               = !empty($aFenOptions['apparience']['extra']) ? $aFenOptions['apparience']['extra'] : '';
+  $aAlerts              = !empty($aFenOptions['apparience']['alerts']) ? $aFenOptions['apparience']['alerts'] : '';
+
+  $sHeader              = !empty($aFenOptions['apparience']['header']) ? $aFenOptions['apparience']['header']['ace_html_header'] : '';
+
+  $sLogotypeHeader      = !empty($aMainSettings['logotype_header']) ? $aMainSettings['logotype_header'] : '';
+  $sLogotypeHeaderAttr  = array( 'alt' => get_bloginfo('name'), 'title' => get_bloginfo('name') );
+  $sFavicon             = !empty($aMainSettings['favicon']) ? $aMainSettings['favicon'] : '';
+
+?>
+
+  <link rel="icon" href="<?php echo !empty($sFavicon) ? $sFavicon : get_bloginfo('template_url').'/assets/images/favicon.png'; ?>">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-  <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+  <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>"><?php 
 
-  <?php wp_head(); // wordpress admin-bar functions ?>
+  wp_head(); // wordpress admin-bar functions ?
 
-  <?php echo $data_header; ?>
+  echo $sHeader;
+
+  /**
+  *  Schema.org
+  * @see the_schema at fen-general-functions.php
+  */
+  the_schema();
+
+  /**
+  *  Page Styles
+  * @see the_page_styles at fen-custom-functions.php
+  */
+  the_page_styles(); ?>
 
 </head>
-<body>
+<body <?php body_class(); ?>>
+
+  <pre><?php var_dump($aFenOptions); ?></pre>
+  <pre><?php var_dump($aFenOptions['apparience']); ?></pre>
+  <pre><?php var_dump($sHeader); ?></pre>
 
   <header id="main-header">
     <nav role="navigation">
       <div class="container">
         <div class="row">
-          <div class="col-xs-2 brand-logo">
-            <a class="main-logo" href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>">
-              <?php
-              $da_logotype_attr        = $da_logotype_mobile ? array( 'class' => 'hidden-xs') :'';
-              $da_logotype_mobile_attr = $da_logotype_mobile ? array( 'class' => 'visible-xs-block') :'';
-
-              echo $da_logotype ? image_selector( $da_logotype, $da_logotype_attr ) : '';
-              echo $da_logotype_mobile ? image_selector( $da_logotype_mobile, $da_logotype_mobile_attr ) : ''; 
-              
-              echo $da_logotype_tag_line ? '<h1 class="visible-xs-block">'.$da_logotype_tag_line.'</h1>' : ''; ?>
+          <div class="col-xs-12 col-sm-2 brand-logo">
+            <a class="main-logo" href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>"><?php
+              echo $sLogotypeHeader ? image_selector( $sLogotypeHeader, $sLogotypeHeaderAttr ) : ''; ?>
             </a>
-          </div>
-
-          <div class="col-xs-10">
-            <?php fen_main_nav(); ?>
 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-nav">
               <span class="sr-only">Toggle navigation</span>
@@ -75,6 +77,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
+          </div>
+
+          <div class="col-xs-12 col-sm-10">
+            <?php fen_main_nav(); ?>
           </div>
         </div><!-- /.row -->
 

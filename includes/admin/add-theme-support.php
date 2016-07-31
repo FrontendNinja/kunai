@@ -1,18 +1,20 @@
 <?php 
 
-/* 
-* Admin Log In
-* we're firing all out initial functions at the start
-* - after_setup_theme
+/**
+* Admin Log In at fen-default-setup.php
+* We're firing all out initial functions at the start
+*
+* @see fen_setup_theme
 */
 add_action( 'after_setup_theme', 'fen_setup_theme', 16 );
 
-/* 
-* Admin Log In
-* calling it only on the login page
-* - login_enqueue_scripts
-* - login_headerurl
-* - login_headertitle
+/**
+* Admin Log In at fen-admin-login.php
+* Log in styles, url and title
+*
+* @see fen_login_css
+* @see fen_login_url
+* @see fen_login_title
 */
 add_action( 'login_enqueue_scripts', 'fen_login_css', 10 );
 add_filter( 'login_headerurl', 'fen_login_url' );
