@@ -1,40 +1,40 @@
-<?php get_header(); ?>
+<?php 
 
-		<h1><span>Resultados de búsqueda Para:</span> <?php echo esc_attr(get_search_query()); ?></h1>
+get_header(); ?>
 
-		<?php if (have_posts()) : ?> 
-			<?php while (have_posts()) : the_post(); ?>
+  <h1><span>Resultados de búsqueda Para:</span> <?php echo esc_attr(get_search_query()); ?></h1><?php 
 
-				<article>
-					<header>
-						<h3><?php the_title(); ?></a></h3>
-					</header>
+  if (have_posts()) :
 
-					<section>
-							<?php the_excerpt( '<span class="read-more">' . __( 'Read more &raquo;', 'NuevaWeb' ) . '</span>' ); ?>
-					</section>
+    while (have_posts()) : the_post(); 
 
-					<footer></footer>
-				</article>
-			<?php endwhile; ?>
+      /**
+      * fen_post_content hook.
+      *
+      * @hooked fen_template_post_feed - 10
+      */
+      do_action('fen_post_feed');
 
-			<?php if (function_exists('nw_paginate_links')) { ?>
-					<?php nw_paginate_links(); ?>
-			<?php } else { ?>
-					<nav class="wp-prev-next">
-							<ul class="clearfix">
-								<li class="prev-link"><?php next_posts_link( __( '&laquo; Older Entries', 'NuevaWeb' )) ?></li>
-								<li class="next-link"><?php previous_posts_link( __( 'Newer Entries &raquo;', 'NuevaWeb' )) ?></li>
-							</ul>
-					</nav>
-			<?php } ?>
+    endwhile;
 
-		<?php else : ?>
+    if(function_exists('fen_paginate_links')) { 
+      fen_paginate_links();
+    } else { ?>
+      <nav class="wp-prev-next">
+        <ul class="clearfix">
+          <li class="prev-link"><?php next_posts_link( __( '&laquo; Older Entries', 'front-end-ninja' )) ?></li>
+          <li class="next-link"><?php previous_posts_link( __( 'Newer Entries &raquo;', 'front-end-ninja' )) ?></li>
+        </ul>
+      </nav><?php 
+    }
 
-			<?php // A 404 answer goes here ?>
+  else:
 
-		<?php endif; ?>
+  /* A 404 answer goes here */
 
-		<?php get_sidebar(); ?>
+  endif; 
 
-<?php get_footer(); ?>
+  get_sidebar('archive');
+
+get_footer();
+

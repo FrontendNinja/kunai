@@ -2,8 +2,8 @@
 /* You shouldn't add functions here, just includes. */
 
 // Admin Page Framework
-require_once( 'lib/fen-admin-page-framework.3.7.15/library/admin-page-framework/admin-page-framework.php' );
-require_once( 'lib/fen-admin-page-framework.3.7.15/admin-page-fen-loader.php' );
+require_once( 'lib/fen-admin-page-framework.3.8.0/library/admin-page-framework/admin-page-framework.php' );
+require_once( 'lib/fen-admin-page-framework.3.8.0/admin-page-fen-loader.php' );
 
 /* FEN Filters, Actions and Registers */
 require_once( 'includes/admin/add-theme-support.php' );

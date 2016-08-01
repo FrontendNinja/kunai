@@ -9,3 +9,9 @@ if( ! function_exists('fen_template_post_content') ){
   }
 }
 
+if( ! function_exists('fen_template_post_feed') ){
+  function fen_template_post_feed(){
+    include(get_template_directory() . '/templates/post-feed.php');
+  }
+}
+

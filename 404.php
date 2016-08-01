@@ -1,15 +1,16 @@
-<?php get_header(); ?>
+<?php 
 
-<div id="404" class="main-content">
-	<h1><span>Error:</span> 404</h1>
+get_header(); ?>
 
-	<h3>La página que buscas no existe.</h3>
-	<p>Utiliza el navegador para encontrar contenido o intenta con nuestro buscador:</p>
+  <div id="404" class="main-content">
+    <h1><span>Error:</span> 404</h1>
 
+    <h3>La página que buscas no existe.</h3>
+    <p>Utiliza el navegador para encontrar contenido o intenta con nuestro buscador:</p><?php 
 
-	<?php get_search_form(); ?>
-	<?php // searchform.php to customize form ?>
+    get_search_form(); /* searchform.php to customize form */ ?>
 
-</div><!-- /#main-content -->
+  </div><?php 
 
-<?php get_footer(); ?>
+get_footer();
+

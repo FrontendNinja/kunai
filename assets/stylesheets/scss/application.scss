@@ -200,6 +200,13 @@ input[type="submit"]{
   &:hover{ color: $red; }
 }
 
+#main-alert{
+  display: table;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
 .alert{
   padding: 10px 15px;
   margin-bottom: 20px;
@@ -218,6 +225,12 @@ input[type="submit"]{
   color: $white;
   background-color: $primary;
   border-color: darken($primary, 15%);
+}
+
+.alert-secondary{
+  color: $black;
+  background-color: $white;
+  border-color: darken($white, 15%);
 }
 
 .dropdown{

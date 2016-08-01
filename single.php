@@ -1,25 +1,23 @@
-<?php get_header(); ?>
-	<?php if (have_posts()) : ?> 
-		<?php while (have_posts()) : the_post(); ?>
+<?php 
 
-		<article>
-			<header>
-				<h1><?php the_title(); ?></h1>
-			</header>
+get_header(); 
 
-			<?php the_content(); ?>
+  if(have_posts()) :
 
-			<footer>
-				<p><?php the_tags( '<span class="tags">' . __( 'Tags:', 'bonestheme' ) . '</span> ', ', ', '' ); ?></p>
-			</footer>
-			<?php comments_template(); ?>
-		</article>
+    while(have_posts()) : the_post(); 
+      
+      /**
+      * fen_post_content hook.
+      *
+      * @hooked fen_template_post_content - 10
+      */
+      do_action('fen_post_content');
 
-		<?php endwhile; ?>
-		 
-	<?php else : ?>
-	<?php endif; ?>
+    endwhile;
 
-	<?php get_sidebar(); ?>
+  endif;
 
-<?php get_footer(); ?>
+  get_sidebar('single');
+
+get_footer();
+

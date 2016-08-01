@@ -6,11 +6,17 @@ get_header();
 
     while (have_posts()) : the_post();
 
-      do_action('fen_post_content');
+      /**
+      * fen_post_content hook.
+      *
+      * @hooked fen_template_post_feed - 10
+      */
+      do_action('fen_post_feed');
 
     endwhile;
     wp_reset_postdata();
 
     endif;
 
-get_footer(); ?>
+get_footer();
+

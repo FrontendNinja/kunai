@@ -26,8 +26,8 @@ function fen_register_sidebars() {
   ));
 
   register_sidebar(array(
-    'id' => 'footer-fourth-col', // Change the id
-    'name' => '[Footer] Cuarta columna', // Change the name
+    'id' => 'archive-sidebar', // Change the id
+    'name' => '[Archive] Sidebar', // Change the name
     'description' => 'Add some widgets.',
     'before_widget' => '<div id="%1$s" class="widget %2$s">',
     'after_widget' => '</div>',

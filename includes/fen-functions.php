@@ -19,5 +19,6 @@ require_once( 'fen-general-functions.php' );
 * @see fen_tags
 */
 require_once( 'fen-post-related-functions.php' );
-require_once( 'fen-get-page-styles.php' );
+require_once( 'fen-create-page-styles.php' );
 require_once( 'fen-get-breadcrumbs.php' );
+

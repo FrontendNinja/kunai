@@ -1,7 +1,7 @@
 <?php
   global $aFenOptions;
 
-  $sFooter              = !empty($aFenOptions['apparience']['footer']) ? $aFenOptions['apparience']['footer'] : ''; ?>
+  $sFooter = !empty($aFenOptions['footer']) ? $aFenOptions['footer']['ace_html_footer'] : ''; ?>
 
   <footer id="main-footer">
     <?php // fen_footer_main_nav(); ?>
@@ -13,18 +13,15 @@
             <p><span itemprop="name"><?php bloginfo('name'); ?></span> © <?php echo date('Y'); ?></p>
           </div>
           <div class="col-xs-6 t-right" itemscope itemtype="http://schema.org/ProfessionalService">
-            <p>Developed by <a href="http://www.frontend.ninja" class="fen-website" target="_blank" itemprop="url">frontend<span>.ninja</span></a></p>
+            <p>Developed by <a href="http://frontend.ninja/?utm_source=Client%20Website&utm_medium=backlink&utm_campaign=Client%20Backlink" class="fen-website" target="_blank" itemprop="url">frontend<span>.ninja</span></a></p>
           </div>
         </div><!--.row-->
       </div><!--.container-->
     </div><!--.legales-->
-  </footer>
-          
+  </footer><?php
 
-  <?php $data_footer = get_option( 'APF_Fen' )['footer']['ace_html_footer']; 
-  echo $data_footer; ?>
+  echo $sFooter;
 
-  <?php wp_footer(); // wordpress admin-bar functions
-  // Load styles and scripts from functions.php nw_enqueue_scripts() function ?>
+  wp_footer(); ?>
 </body>
 </html>

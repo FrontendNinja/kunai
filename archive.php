@@ -1,63 +1,83 @@
-<?php get_header(); ?>
+<?php 
 
-		<div id="main-content" role="main">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<h1>
-							<?php if (is_category()) { ?> <span><?php _e( 'Categoría:', 'NuevaWeb' ); ?></span> <?php single_cat_title(); ?>
-							<?php } elseif (is_tag()) { ?> <span><?php _e( 'Tag:', 'NuevaWeb' ); ?></span> <?php single_tag_title(); ?>
-							<?php } elseif (is_author()) { global $post; $author_id = $post->post_author; ?><span><?php _e( 'Publicado por:', 'NuevaWeb' ); ?></span> <?php the_author_meta('display_name', $author_id); ?>
-							<?php } elseif (is_day()) { ?><span><?php _e( 'Archivos por día:', 'NuevaWeb' ); ?></span> <?php the_time('l, F j, Y'); ?>
-							<?php } elseif (is_month()) { ?><span><?php _e( 'Archivos por mes:', 'NuevaWeb' ); ?></span> <?php the_time('F Y'); ?>
-							<?php } elseif (is_year()) { ?><span><?php _e( 'Archivos por año:', 'NuevaWeb' ); ?></span> <?php the_time('Y'); ?>
-							<?php } ?>
-						</h1>
+get_header(); 
 
-						<?php if (have_posts()) : ?> 
-							<?php while (have_posts()) : the_post(); ?>
+  /** 
+  * @see get_current_post_type at fen-general-functions.php
+  */
+  $sArchiveType   = get_current_post_type();
 
-								<article role="article">
-									<div class="row">
-										<?php if(has_post_thumbnail()): ?>
-											<div class="col-sm-4">
-												<?php the_post_thumbnail( 'medium' ); ?>
-											</div>
-										<?php endif; ?>
-										<div class="<?php has_post_thumbnail() ? 'col-sm-8':'col-sm-12' ?>">
-											<header>
-												<h3><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
-											</header>
-											<?php the_excerpt(); ?>
+  switch ($sArchiveType) {
+    case 'category':
+      $sArchiveTitle  = __( 'Categoría:', 'front-end-ninja' );
+      $sArchiveElse   = single_cat_title('', false);
+      break;
+    case 'tag':
+      $sArchiveTitle  = __( 'Tag:', 'front-end-ninja' );
+      $sArchiveElse   = single_tag_title('', false);
+      break;
+    case 'author':
+      global $post; 
+      $iAuthorId = $post->post_author;
 
-											<?php if(function_exists( 'nw_tags' ) && nw_tags()): ?>
-												<footer class="tags">
-													<p>Tags: <?php echo nw_tags(); ?></p>
-												</footer>
-											<?php endif; ?>
-										</div><!-- /.col-sm-8 -->
-									</div>
+      $sArchiveTitle  = __( 'Publicado por:', 'front-end-ninja' );
+      $sArchiveElse   = get_the_author_meta('display_name', $iAuthorId);
+      break;
+    case 'day':
+      $day    = 'l, F j, Y';
+      $sTimeTitle     = __( 'Archivos por día:', 'front-end-ninja' );
+      $sTimeFormat    = $day;
+    case 'month':
+      $month  = 'F Y';
+      $sTimeTitle     = empty($sTimeTitle) ? __( 'Archivos por mes:', 'front-end-ninja' ) : $sTimeTitle;
+      $sTimeFormat    = empty($sTimeFormat) ?  $month : $sTimeFormat;
+    case 'year':
+      $year   = 'Y';
+      $sTimeTitle     = empty($sTimeTitle) ? __( 'Archivos por año:', 'front-end-ninja' ) : $sTimeTitle;
+      $sTimeFormat    = empty($sTimeFormat) ?  $year : $sTimeFormat;
 
-								</article>
-							<?php endwhile; ?>
+      $sArchiveTitle  = $sTimeTitle;
+      $sArchiveElse   = get_the_time($sTimeFormat);
 
-							<?php if ( function_exists( 'nw_paginate_links' ) ) { ?>
-								<?php nw_paginate_links(); ?>
-							<?php } else { ?>
-								<nav class="wp-prev-next">
-									<ul class="clearfix">
-										<li class="prev-link"><?php next_posts_link( __( '&laquo; Older Entries', 'NuevaWeb' )) ?></li>
-										<li class="next-link"><?php previous_posts_link( __( 'Newer Entries &raquo;', 'NuevaWeb' )) ?></li>
-									</ul>
-								</nav>
-							<?php } ?>
+      break;
+    case 'tax':
+      $sArchiveTitle  = __( 'Tax:', 'front-end-ninja' );
+      $sArchiveElse   = single_term_title( '', false );
+      break;
+    
+    default:
+      break;
+  } ?>
 
-						<?php else : ?>
-							<p>No se encontró nada.</p>
-						<?php endif; ?>
-					</div><!-- /.col-sm-10 col-sm-offset-1 -->
-				</div><!-- /.row -->
-			</div><!-- /.container -->
-		</div><!-- #main-content -->
+    <h1>
+      <span><?php echo $sArchiveTitle; ?></span> <?php echo $sArchiveElse; ?>
+    </h1><?php 
+    if (have_posts()) :
+      while (have_posts()) : the_post(); 
 
-<?php get_footer(); ?>
+        /**
+        * fen_post_content hook.
+        *
+        * @hooked fen_template_post_feed - 10
+        */
+        do_action('fen_post_feed');
+
+      endwhile;
+
+      if ( function_exists( 'fen_paginate_links' ) ) {
+        fen_paginate_links();
+      } else { ?>
+        <nav class="wp-prev-next">
+          <ul class="clearfix">
+            <li class="prev-link"><?php next_posts_link( __( '&laquo; Older Entries', 'front-end-ninja' )) ?></li>
+            <li class="next-link"><?php previous_posts_link( __( 'Newer Entries &raquo;', 'front-end-ninja' )) ?></li>
+          </ul>
+        </nav>
+      <?php }
+
+    else : ?>
+      <p>No se encontró nada.</p><?php 
+    endif;
+
+get_footer();
+

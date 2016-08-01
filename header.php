@@ -25,7 +25,7 @@
   $aExtra               = !empty($aFenOptions['apparience']['extra']) ? $aFenOptions['apparience']['extra'] : '';
   $aAlerts              = !empty($aFenOptions['apparience']['alerts']) ? $aFenOptions['apparience']['alerts'] : '';
 
-  $sHeader              = !empty($aFenOptions['apparience']['header']) ? $aFenOptions['apparience']['header']['ace_html_header'] : '';
+  $sHeader              = !empty($aFenOptions['header']) ? $aFenOptions['header']['ace_html_header'] : '';
 
   $sLogotypeHeader      = !empty($aMainSettings['logotype_header']) ? $aMainSettings['logotype_header'] : '';
   $sLogotypeHeaderAttr  = array( 'alt' => get_bloginfo('name'), 'title' => get_bloginfo('name') );
@@ -56,11 +56,26 @@
   the_page_styles(); ?>
 
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?>><?php
+  if (!empty($aAlerts)): 
+    $sAlertId      = 'id="main-alert" ';
+    $sAlertClass   = 'class="alert alert-';
+    $sAlertClass  .= is_string($aAlerts['type']) ? $aAlerts['type'] : 'secondary';
+    $sAlertClass  .= '"'; 
 
-  <pre><?php var_dump($aFenOptions); ?></pre>
-  <pre><?php var_dump($aFenOptions['apparience']); ?></pre>
-  <pre><?php var_dump($sHeader); ?></pre>
+    $sAlertOpen    = (!empty($aAlerts['main_alert_url']) ? '<a href="' . $aAlerts['main_alert_url'] . '" ' : '<div ' ) . $sAlertId . $sAlertClass . ' >';
+    $sAlertClose   = !empty($aAlerts['main_alert_url']) ? '</a>' : '</div>'; 
+
+    echo $sAlertOpen; ?>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12"><?php 
+            echo apply_filters('the_content', $aAlerts['main_alert']); ?>
+          </div>
+        </div>
+      </div><?php 
+    echo $sAlertClose;
+  endif; ?>
 
   <header id="main-header">
     <nav role="navigation">
