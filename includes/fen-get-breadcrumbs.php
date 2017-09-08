@@ -1,7 +1,7 @@
 <?php 
 /**
 * @author   Carlos González from Front End Ninja
-* @version  1.0
+* @version  1.0.5   2017/03/29 "Fix: Error when category has no items".
 * @param    none    Doesn't recieve any parameters.
 * 
 * @return   Post ancestors as breadcrumbs. It's necesary to echo this function when using it. 
@@ -27,7 +27,7 @@ function get_breadcrumbs(){
                                 'itemprop="itemListElement" itemscope
                                 itemtype="http://schema.org/ListItem">
                               <a itemprop="item" href="'.$permalink.'">
-                                <span itemprop="name">'.$title.'</span></a>
+                                <span itemprop="name">'.__($title, 'fen').'</span></a>
                               <meta itemprop="position" content="'.$i.'" />'.
                               (!empty($separator) ? $separator:'').
                             '</li>';
@@ -57,10 +57,15 @@ function get_breadcrumbs(){
   * @return       array()
   */
   function get_page_ancestors($n, $post_type){
+    $page_acenstors = array(
+      'ancestors' => "",
+      'counter'   => 0
+      );
+
     $n++;
     global $post;
 
-    $post_type = get_post_type();
+    $post_type = $post_type === 'category' ? $post_type : get_post_type() ;
 
     switch ($post_type) {
       case 'post':
@@ -68,6 +73,26 @@ function get_breadcrumbs(){
         $archive_title = get_the_category($post->ID)[0]->name;
         $archive_permalink = get_category_link($category_meta->term_id);
         $page_acenstors['ancestors'] = breadcrumb_template($archive_permalink,  $archive_title,  $n,  $separator );
+        $n++;
+        break;
+
+      case 'category':
+
+        $sArchiveTitle      = single_cat_title('', false);
+        $sArchiveId         = get_cat_ID($sArchiveTitle);
+        $aArchiveAncestors  = get_ancestors( $sArchiveId, 'category' );
+
+        if(!empty($aArchiveAncestors)){
+          foreach ($aArchiveAncestors as $key => $catID) {
+            $cat_meta       = get_term($catID, 'category');
+            $cat_title      = $cat_meta->name;
+            $cat_permalink  = get_category_link($cat_meta->term_id);
+            $page_acenstors['ancestors'] .= breadcrumb_template($cat_permalink, $cat_title,  $n,  $separator );
+
+            $n++;
+          }
+        }
+        
         $n++;
         break;
 
@@ -84,29 +109,31 @@ function get_breadcrumbs(){
         // Post Type
         $post_type_permalink = get_post_type_archive_link($post_type);
         $page_acenstors['ancestors'] = breadcrumb_template($post_type_permalink,  $post_type,  $n,  $separator );
-        // $tax = get_taxonomy( get_queried_object()->taxonomy );
-        // $tax_name = single_term_title("", false);
-        // $tax_slug = $tax->rewrite['slug'];
+        $tax = get_taxonomy( get_queried_object()->taxonomy );
+        $tax_name = single_term_title("", false);
+        $tax_slug = $tax->rewrite['slug'];
 
-        // $tax_permalink = get_term_link(get_term_by('name', $tax_name, $tax_slug)->term_id );
+        $tax_permalink = get_term_link(get_term_by('name', $tax_name, $tax_slug)->term_id );
         break;
       case 'product':
         if(!is_tax()){
           $term = wp_get_post_terms( $post->ID, 'product_cat' )[0];
           $term_permalink = get_term_link( $term->term_id, 'product_cat');
-          
-          $page_acenstors['ancestors'] .= term_ancestors($term, $n);
 
-          $page_acenstors['ancestors'] .= breadcrumb_template($term_permalink, $term->name, $n, $separator);
+          $page_acenstors['ancestors'] .= $term == null ? "" : term_ancestors($term, $n);
+
+          $page_acenstors['ancestors'] .= $term == null ? "" : breadcrumb_template($term_permalink, $term->name, $n, $separator);
           
 
           $n++;
         }
         break;
-      // case 'author':
-      //   $author_ID        = $post->post_author;
-      //   $author_data      = get_userdata($author_ID);
-      //   $author_permalink = get_author_posts_url( $author_ID, $author_data->data->user_nicename );
+      case false:
+        break;
+      case 'author':
+        $author_ID        = $post->post_author;
+        $author_data      = get_userdata($author_ID);
+        $author_permalink = get_author_posts_url( $author_ID, $author_data->data->user_nicename );
 
       default:
         $archive_permalink = get_post_type_archive_link($post_type);
@@ -114,7 +141,7 @@ function get_breadcrumbs(){
         break;
     }
 
-    $page_acenstors['counter'] = $n;
+    $page_acenstors['counter'] = $n != null && $n > -1 ? $n : 0;
     return $page_acenstors;
   }
 
@@ -123,10 +150,20 @@ function get_breadcrumbs(){
   $breadcrumb_opening = '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">';
   $breadcrumb_closing = '</ol>';
 
+  /* check if qtranslate function exists */
+  if(class_exists('QTX_Translator')) {
+    /* if language is English use this code */
+    $sInicio = __("[:en]Home[:es]Inicio[:]", "fen");
+  }else{
+    $sInicio = __('Inicio', 'fen');
+  }
+
   // Breadcrumbs Opening
-  $breadcrumbs .= $breadcrumb_opening.
-                  breadcrumb_template(get_bloginfo("url"), __('Inicio', 'Front-End-Ninja'), $i, $separator);
-  
+  $breadcrumbs = $breadcrumb_opening.
+                  breadcrumb_template(get_bloginfo("url"), $sInicio, $i, $separator);
+
+
+
   // Here we check which post_type are used on the current post to retrieve its ancestors information.
   $custom_post_type = get_post_type();
 
@@ -145,8 +182,16 @@ function get_breadcrumbs(){
     is_search() ? 'search' : 'other')
     )))))))));
 
+  $author_ID        = "";
+  $author_data      = "";
+  $author_permalink = "";
+  $tax_permalink    = "";
+
   // Execute get_page_ancestors();
-  $ancestors_array = get_page_ancestors($i, $current_post_type);
+  $aAncestors       = array('ancestors' => "", 'counter' => 0);
+  $aPageAncestors   = get_page_ancestors($i, $current_post_type);
+
+  $ancestors_array = array_merge($aAncestors,$aPageAncestors);
 
   $post_type = array(
     'page' => array(
@@ -158,7 +203,7 @@ function get_breadcrumbs(){
     'category' => array(
       'permalink'     => get_category_link(get_query_var('cat')),
       'title'         => get_category(get_query_var('cat'))->name,
-      'ancestors'     => $ancestors_array['ancestors'], // We don't get any ancestors for categories.
+      'ancestors'     => $ancestors_array['ancestors'], // Only if category has cat parent
       'counter'       => $ancestors_array['counter'],
     ),
     'single' => array(
@@ -193,25 +238,25 @@ function get_breadcrumbs(){
     ),
     'day' => array(
       'permalink'     => 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
-      'title'         => __( 'Archivo: ', 'front-end-ninja' ).get_the_time('l, F j, Y'),
+      'title'         => __( 'Archivo: ', 'fen' ).get_the_time('l, F j, Y'),
       'ancestors'     => $ancestors_array['ancestors'],
       'counter'       => $ancestors_array['counter'],
     ),
     'month' => array(
       'permalink'     => 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
-      'title'         => __( 'Archivo: ', 'front-end-ninja' ).get_the_time('F Y'),
+      'title'         => __( 'Archivo: ', 'fen' ).get_the_time('F Y'),
       'ancestors'     => $ancestors_array['ancestors'],
       'counter'       => $ancestors_array['counter'],
     ),
     'year' => array(
       'permalink'     => 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
-      'title'         => __( 'Archivo: ', 'front-end-ninja' ).get_the_time('Y'),
+      'title'         => __( 'Archivo: ', 'fen' ).get_the_time('Y'),
       'ancestors'     => $ancestors_array['ancestors'],
       'counter'       => $ancestors_array['counter'],
     ),
     'search' => array(
       'permalink'     => 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
-      'title'         => __('Búsqueda', 'front-end-ninja'),
+      'title'         => __('Búsqueda', 'fen'),
       'ancestors'     => '',
       'counter'       => '',
     ),
@@ -228,7 +273,7 @@ function get_breadcrumbs(){
 
   // Breadcrumbs Current Post
   $i = $post_type[$current_post_type]['counter'];
-  $current_post .= breadcrumb_template( $post_type[$current_post_type]['permalink'], $post_type[$current_post_type]['title'], $i, '', 'current-post' );
+  $current_post = breadcrumb_template( $post_type[$current_post_type]['permalink'], $post_type[$current_post_type]['title'], $i, '', 'current-post' );
   $breadcrumbs .= $current_post;
 
   // Breadcrumbs Closing

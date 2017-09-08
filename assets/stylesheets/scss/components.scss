@@ -1,0 +1,279 @@
+@import "wordpress";
+
+/* Contact Form 7 */
+.wpcf7 form{
+  @extend .form-container;
+  @extend .p-20;
+  p{ color: $black !important; }
+}
+
+/* WP Canvas */
+.wcs-tabs-nav a {
+  background-color: lighten($gray-e, 5%);
+  color: $gray-9;
+}
+
+/* Searchform */
+.searchform{
+  :-moz-placeholder{ @extend %placeholder; }
+  ::-moz-placeholder{ @extend %placeholder; }
+  :-ms-input-placeholder { @extend %placeholder; }
+}
+
+/* Breacrumbs */
+
+.breadcrumbs{
+  width: 100%;
+  display: table;
+  padding: 0;
+  margin: 0 0 0 -10px;
+  list-style-type: none;
+  text-transform: capitalize;
+
+  li {
+    float: left; 
+    &:last-child a:after { content: ""; }
+  }
+  .current-post{
+    a{ 
+      color: $gray-3; 
+      font-weight: 800;
+    }
+  }
+  a {
+    @include font-size(12px, $base-fontsize);
+    padding: 10px;
+    display: block;
+    position: relative;
+    color: $gray-9;
+
+    &:hover{ 
+      color: $gray-3;
+      text-decoration: none;
+    }
+    
+    &:after {
+        content: "»";
+        position: absolute;
+        color: $black;
+        right: -3px;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        height: 12px;
+        line-height: 10px;
+    }
+  }
+}
+
+/* Tags */
+.tags{
+  line-height: 1.9em;
+  a{
+    @include bp-xs-only{ margin-bottom: 10px; }
+    color: $gray-8;
+    padding: 3px 10px;
+    margin-right: 5px;
+    border-radius:3px;
+    background-color: lighten($gray-e, 5%);
+    display: inline-block;
+    @include font-size(12px, $base-fontsize);
+
+    &:hover{
+      text-decoration: none;
+      &:hover{ background-color: lighten($gray-e, 7%); }
+    }
+  }
+}
+
+/* FEN Social Networks */
+
+.social-meta {
+  list-style-type: none;
+  padding-left: 0;
+  
+  li {
+    display: inline-block;
+    margin-right: 10px;
+    @include font-size(18px, $base-fontsize);
+  }
+}
+
+/* Alerts */
+#main-alert{
+  display: table;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+.alert{
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: .9em;
+  line-height: 1.4em;
+  border: 1px solid $gray-3;
+}
+
+@include alert-primary('success', $success);
+@include alert-primary('info', $info);
+@include alert-primary('warning', $warning);
+@include alert-primary('danger', $danger);
+
+.alert-primary{
+  color: $white;
+  background-color: $primary;
+  border-color: darken($primary, 15%);
+}
+
+.alert-secondary{
+  color: $black;
+  background-color: $white;
+  border-color: darken($white, 15%);
+}
+
+.woocommerce-message, 
+.woocommerce-error,
+.woocommerce-info{
+  @extend .alert;
+  list-style-type: none;
+  margin-top: 10px;
+
+  ul{
+    padding: 0;
+    list-style-type: none;
+  }
+}
+
+.woocommerce-message {
+  background-color: $black;
+  color: $white;
+  @extend .alert-primary;
+}
+
+.woocommerce-error {
+  @extend .alert-danger;
+}
+
+.woocommerce-info {
+  @extend .alert-info;
+}
+
+.woocommerce-password-strength {
+  padding: 5px 10px;
+  font-size: 13px;
+  
+  &.strong { background-color: $success; }
+  &.good { background-color: $warning; }
+  &.bad { background-color: $danger; }
+  &.short { background-color: darken($danger, 10%); }
+}
+
+.dropdown{
+  padding: 0;
+
+  > li{
+    z-index: 1;
+    position: relative;
+
+    &:hover{
+      > ul{ display: block; }
+    }
+
+    a{ display: block; }
+
+    > ul{ 
+      display: none; 
+      min-width: 120px; // You can change this width for whatever you need.
+      position: absolute; 
+      left: 0;
+      top: 100%; 
+
+      ul{
+        top: 0;
+        left: 100%;
+      }
+    }
+  }
+}
+
+/* Wordpress Gallery */
+.gallery-item{
+  padding: 0 10px;
+  float: left;
+
+  img{
+    width: 100%;
+    height: auto;
+    border: 0 !important;
+  }
+}
+
+.wp-caption{
+  a{ display: block; }
+}
+
+.wp-caption p.wp-caption-text, .wp-caption-text{
+  font-weight: 400;
+  font-size: 1.2em;
+  line-height: 1em;
+  padding: 15px 0 10px;
+}
+
+.gallery-columns-1 .gallery-item{ width: percentage(100/100); }
+.gallery-columns-2 .gallery-item{ width: percentage(100/200); }
+.gallery-columns-3 .gallery-item{ @include bp-md-up{ width: percentage(100/300); } }
+.gallery-columns-4 .gallery-item{ @include bp-md-up{ width: percentage(100/400); } }
+.gallery-columns-5 .gallery-item{ @include bp-lg-up{ width: percentage(100/500); } }
+.gallery-columns-6 .gallery-item{ @include bp-lg-up{ width: percentage(100/600); } }
+.gallery-columns-7 .gallery-item{ @include bp-lg-up{ width: percentage(100/700); } }
+.gallery-columns-8 .gallery-item{ @include bp-lg-up{ width: percentage(100/800); } }
+.gallery-columns-9 .gallery-item{ @include bp-lg-up{ width: percentage(100/900); } }
+
+.gallery-item {
+  @include bp-from-to(0, $screen-xs-max){
+    width: 50%;
+  }
+
+  @include bp-sm-only{
+    width: 33%;
+  }
+
+  .gallery-columns-5 &,
+  .gallery-columns-6 &,
+  .gallery-columns-7 &,
+  .gallery-columns-8 &,
+  .gallery-columns-9 &{
+    @include bp-md-only{
+      width: 25%;
+    }
+  }
+}
+
+.gallery:not(body) {
+  display: table;
+  width: 100%;
+
+  br { display: none; }
+
+  .gallery-caption { 
+    font-weight: 600;
+    line-height: 1.4em;
+    @include font-size(14px, $base-fontsize);
+    // display: none; 
+  }
+}
+
+/* Shortcodes By Angie */
+.wc-shortcodes-accordion-trigger{
+  background-color: $primary;
+
+  &:hover, &:active, &:focus{
+    background-color: lighten($primary, 10%);
+  }
+
+  a{
+    color: $white;
+  }
+}

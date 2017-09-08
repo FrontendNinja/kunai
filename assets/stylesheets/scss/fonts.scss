@@ -1,13 +1,6 @@
-// Learn how to use @font-face - Docs: http://nicewebtype@mixin $fontFamily: 'OpenSans', $fontStyle:normal, $fontWeight:400, $root:'../../fonts/Open_Sans/', $file:'OpenSans-Regular.ttf'){
-// 	$src: "@{root}@{file}";
-// 	@font-face{
-// 		font-family: '@{fontFamily}'; // 'family name' 
-// 		font-style: $fontStyle; // normal, italic, oblique 
-// 		font-weight: $fontWeight; // 100 (This is light), 400 (This is normal), 900 (This is bold) 
-// 		src: url('@{src}');
-// 	}
-// }
-
+/**
+* Font-face Mixin
+*/
 @mixin font-face($fontFamily: 'OpenSans', $fontStyle:normal, $fontWeight:400, $root:'../../fonts/Open_Sans/', $file:'OpenSans-Regular.ttf'){
 	$src: "#{$root}#{$file}";
 	@font-face{
@@ -18,6 +11,9 @@
 	}
 }
 
+/**
+* Usage:
+*/
 $Open-SansPath: '../../fonts/Open_Sans/';
 
 @include font-face('OpenSans',normal,300,$Open-SansPath,'OpenSans-Light.ttf');
@@ -31,5 +27,5 @@ $Open-SansPath: '../../fonts/Open_Sans/';
 @include font-face('OpenSans',normal,900,$Open-SansPath,'OpenSans-ExtraBold.ttf');
 @include font-face('OpenSans',italic,900,$Open-SansPath,'OpenSans-ExtraBoldItalic.ttf');
 
-
+/* Variables */
 $Open-Sans: "OpenSans", Arial, sans-serif;

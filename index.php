@@ -10,6 +10,7 @@ get_header();
       * fen_post_content hook.
       *
       * @hooked fen_template_post_feed - 10
+      * @see fen-template-hooks.php
       */
       do_action('fen_post_feed');
 

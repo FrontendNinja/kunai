@@ -19,3 +19,9 @@ add_action( 'fen_post_content', 'fen_template_post_content', 10 );
  */
 add_action( 'fen_post_feed', 'fen_template_post_feed', 10 );
 
+/**
+ * Archive Template.
+ *
+ * @see fen_template_archive_feed
+ */
+add_action( 'fen_archive_feed', 'fen_template_archive_feed',  10 );

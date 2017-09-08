@@ -9,25 +9,47 @@ function the_page_styles(){
 }
 
 /**
+* @author xWaZzo @FrontEndNinja
+* @version 1.0.1    2017/04/16  Better organization.
+*
 * Get Page Styles
 * You can set inside this function all the args to create your custom css.
+* You need to echo this function.
 * @see create_page_styles at fen-create-page-styles.php
 * 
 * @param none
-* You need to echo this function.
 */
-
 function get_page_styles(){
   global $aFenOptions;
 
-  $aExtra               = !empty($aFenOptions["apparience"]["extra"]) ? $aFenOptions["apparience"]["extra"] : '';
+  $aExtra     = !empty($aFenOptions["apparience"]["extra"]) ? $aFenOptions["apparience"]["extra"] : '';
+  $sError404  = !empty($aFenOptions["apparience"]["main_settings"]["error_404"])  ? $aFenOptions["apparience"]["main_settings"]["error_404"]  : '';
 
-  $aExtraCSS = !empty($aExtra["ace_css_custom"]) ? array(
-        'rules'     => $aExtra["ace_css_custom"],
-        ) : '';
+  /* Error 404 */
+  if(!empty($sError404)){
+    $aError404CSS = array(
+          'selector'  => "#error-404",
+          'rules'     => array(
+            'background-image'  => "url(" . $sError404 .")" 
+            )
+          );
 
-  $aSectionStyles = !empty($aExtra["ace_css_custom"]) ? array( $aExtraCSS ) : array();
+    $aStyles[] = $aError404CSS;
+  }
 
-  return !empty($aSectionStyles) ? create_page_styles($aSectionStyles) : '';
+  /* Custom CSS */
+  if(!empty($aExtra["ace_css_custom"])){
+    $aExtraCSS = array(
+          'rules'     => $aExtra["ace_css_custom"]
+          );
+
+    $aStyles[] = $aExtraCSS;
+  }
+
+  /**
+  * Create the Page Styles 
+  * @see fen-create-page-styles.php
+  */
+  return !empty($aStyles) ? create_page_styles($aStyles) : '';
 }
 

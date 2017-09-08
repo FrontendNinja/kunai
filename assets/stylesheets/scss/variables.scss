@@ -3,7 +3,7 @@
 $black:             #000;
 $white:             #fff;
 
-$red:               #c2002f; // Front End Ninja Official Red
+$pink:              #d46782; // Front End Ninja Official Pink
 
 $gray-e:            #e5e5e5;
 $gray-b:            #bbbbbb;
@@ -13,12 +13,16 @@ $gray-9:            #999999;
 $gray-2:            #232121;
 $gray-3:            #333;
 
-$primary:           $red;
 $success:           #CDF1E0;
 $info:              #C8E4F5;
 $warning:           #FFF8C4;
 $danger:            #FFD5DF;
 
-// Font Size
+/* Template Colors */
+$primary:           $pink;
 
-$base-fontsize:     14px;
+// Font Size
+$base-fontsize:     18px;
+
+$primaryFontFamily: $Open-Sans;
+$secondaryFontFamily: 'Arial', sans-serif;

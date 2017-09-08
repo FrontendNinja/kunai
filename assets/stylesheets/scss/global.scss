@@ -1,0 +1,192 @@
+html{ font-size: $base-fontsize; }
+body{ font-family: $primaryFontFamily; color: $gray-2; }
+
+h1, h2, h3, h4, h5, h6{ font-family: $secondaryFontFamily; }
+
+img{ vertical-align: top; } // Remove 2 pixels under the image
+
+ol, ul, dl{}
+
+li{}
+
+p { @include font-size(14px, $base-fontsize); }
+
+a{}
+
+blockquote{}
+
+[class^="btn-"] {
+  padding: 1rem 3rem;
+  font-family: $secondaryFontFamily;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  @include font-size(16px, $base-fontsize);
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.btn-primary,
+.btn-secondary{
+  cursor: pointer;
+  padding: 10px 25px;
+}
+
+.btn-primary{
+  background-color: $primary; 
+  border: 0; 
+  border-radius: 0;
+
+  &:hover, &:focus, &:active, &:active:focus{
+    background-color: lighten($primary, 5%); 
+    border-color: lighten($primary, 5%); 
+  }
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: $primary;
+  border: 1px solid $primary;
+
+  &:hover, &:focus, &:active {
+    color: $white;
+    background-color: $primary; 
+    border-color: $primary; 
+  }
+}
+
+.btn-smaller {
+  padding: 7px 15px;
+  line-height: 1em;
+  font-size: 1em;
+}
+
+.btn-small { padding: 0.7rem 2rem; }
+
+%whiteBorderedBox{
+  background-color: $white;
+  border: 1px solid $gray-e;
+  border-radius: 5px;
+  box-shadow: 1px 2px 2px transparentize($black, 0.95);
+  margin-bottom: 30px;
+}
+
+%disabled{
+  background-color: $gray-e;
+  color: $gray-8;
+  border-color: darken($gray-e, 10%);
+}
+
+%input-official{
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid $gray-c;
+  margin-bottom: 10px;
+  @include font-size(18px, $base-fontsize);
+}
+
+// Combine .form-container with padding and f-width for pretty forms.
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="password"],
+input[type="search"],
+textarea{
+  @include placeholder{ color: $gray-3; }
+
+  @extend %input-official;
+
+  &:disabled{ @extend %disabled; }
+
+  .f-width &, .form-container &{
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+textarea{
+  background-color: darken($white, 3%);
+}
+
+input[type="submit"],
+button[type="submit"]{
+  @extend .btn;
+  @extend .btn-primary;
+
+  &:disabled{
+    @extend %disabled;
+
+    &:hover{
+      @extend %disabled;
+    }
+  }
+}
+
+.form-container, .box-container{
+  @extend %whiteBorderedBox;
+}
+
+%placeholder{ color: darken($white, 10%); }
+
+// General Clases
+// ====================================
+
+.none{ display: none; }
+.relative{ position: relative; }
+.absolute{ position: absolute; }
+.fixed{ position: fixed; }
+
+.t-left{ text-align: left; }
+.t-right{ text-align: right; }
+.t-center{ text-align: center; }
+.t-justify{ text-align: justify; }
+
+.big { @include font-size(21px, $base-fontsize); }
+.small { @include font-size(11px, $base-fontsize); }
+
+// Usefull for templates
+@for $i from 0 through 100{
+  $pixels: 0;
+  @if $i>0 {
+    $pixels: 5*$i;
+  } @else{
+    $pixels: 0;
+  }
+
+  .m-t-#{$pixels}{ margin-top: $pixels + px; }
+  .m-r-#{$pixels}{ margin-right: $pixels + px; }
+  .m-b-#{$pixels}{ margin-bottom: $pixels + px; }
+  .m-l-#{$pixels}{ margin-left: $pixels + px; }
+  .m-#{$pixels}{ margin: $pixels + px; }
+
+  .m-tb-#{$pixels}, .m-bt-#{$pixels}{ margin-top: $pixels + px; margin-bottom: $pixels + px; }
+  .m-tl-#{$pixels}, .m-lt-#{$pixels}{ margin-top: $pixels + px; margin-left: $pixels + px; }
+  .m-rb-#{$pixels}, .m-br-#{$pixels}{ margin-right: $pixels + px; margin-bottom: $pixels + px; }
+  .m-rl-#{$pixels}, .m-lr-#{$pixels}{ margin-right: $pixels + px; margin-left: $pixels + px; }
+  .m-bl-#{$pixels}, .m-lb-#{$pixels}{ margin-bottom: $pixels + px; margin-left: $pixels + px; }
+  .m-tr-#{$pixels}, .m-rt-#{$pixels}{ margin-top: $pixels + px; margin-right: $pixels + px; }
+  
+  .p-t-#{$pixels}{ padding-top: $pixels + px; }
+  .p-r-#{$pixels}{ padding-right: $pixels + px; }
+  .p-b-#{$pixels}{ padding-bottom: $pixels + px; }
+  .p-l-#{$pixels}{ padding-left: $pixels + px; }
+  .p-#{$pixels}{ padding: $pixels + px; }
+
+  .p-tr-#{$pixels}, .p-rt-#{$pixels}{ padding-top: $pixels + px; padding-right: $pixels + px; }
+  .p-tb-#{$pixels}, .p-bt-#{$pixels}{ padding-top: $pixels + px; padding-bottom: $pixels + px; }
+  .p-tl-#{$pixels}, .p-lt-#{$pixels}{ padding-top: $pixels + px; padding-left: $pixels + px; }
+  .p-rb-#{$pixels}, .p-br-#{$pixels}{ padding-right: $pixels + px; padding-bottom: $pixels + px; }
+  .p-rl-#{$pixels}, .p-lr-#{$pixels}{ padding-right: $pixels + px; padding-left: $pixels + px; }
+  .p-bl-#{$pixels}, .p-lb-#{$pixels}{ padding-bottom: $pixels + px; padding-left: $pixels + px; }
+}
+
+.fen-website{ color: $gray-2;
+  span{ color: $pink; }
+  &:hover{ color: $pink; }
+}
+
+%transition{
+  @include transition(0.2s);
+}

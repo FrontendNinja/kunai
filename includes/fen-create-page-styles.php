@@ -2,8 +2,9 @@
 /**
 * Function create_page_styles($aPageStyles)
 * Create CSS with PHP! Easy and fast!
-* @version    0.5 // 18/07/2016
-*
+* @version    1.0.0 // 13/01/2017
+* @author     xWaZzo @ Front End Ninja
+* @changelog  Loop verify that $sCssValue is not empty.
 * @param      array     (Required)      $aPageStyles.       Options from APF_Fen_OnePager
 * @return     string     Page styles within <style> selector.
 *
@@ -36,7 +37,9 @@ function create_page_styles($aPageStyles){
 
       if(!empty($aCssVariables['rules']) && is_array($aCssVariables['rules'])):
         foreach ($aCssVariables['rules'] as $sCssRule => $sCssValue) {
-          $sPageStyles .= $sCssRule . ':' . $sCssValue . ';';
+          if(!empty($sCssValue)){
+            $sPageStyles .= $sCssRule . ':' . $sCssValue . ';';
+          }
         }
       else:
         $sPageStyles .= !empty($aCssVariables['rules']) ? $aCssVariables['rules'] : '';

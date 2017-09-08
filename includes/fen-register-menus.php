@@ -1,4 +1,7 @@
 <?php 
+/**
+* Register wordpress menus
+*/
 function fen_register_menus(){
   // registering wp3+ menus
   register_nav_menus(
@@ -9,6 +12,10 @@ function fen_register_menus(){
   );
 }
 
+/**
+* Fen Main Nav
+* Echo the main-nav menu-
+*/
 function fen_main_nav(){
   wp_nav_menu(array(
     'theme_location' => 'main-nav',
@@ -46,7 +53,7 @@ function fen_footer_main_nav(){
     'link_before'     => '',
     'link_after'      => '',
     'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-    'depth'           => -1,
+    'depth'           => -1, // no depth allowed
     'walker'          => ''
   ));
 }
