@@ -9,7 +9,7 @@ ol, ul, dl{}
 
 li{}
 
-p { @include font-size(14px, $base-fontsize); }
+p {}
 
 a{}
 
@@ -21,7 +21,6 @@ blockquote{}
   font-weight: 600;
   display: inline-block;
   text-align: center;
-  @include font-size(16px, $base-fontsize);
 
   &:hover {
     text-decoration: none;
@@ -68,7 +67,6 @@ blockquote{}
 %whiteBorderedBox{
   background-color: $white;
   border: 1px solid $gray-e;
-  border-radius: 5px;
   box-shadow: 1px 2px 2px transparentize($black, 0.95);
   margin-bottom: 30px;
 }
@@ -80,11 +78,12 @@ blockquote{}
 }
 
 %input-official{
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid $gray-c;
-  margin-bottom: 10px;
-  @include font-size(18px, $base-fontsize);
+  color: $black;
+  padding: 5px 15px;
+  margin-bottom: 15px;
+  border: 1px solid $gray-e;
+  background-color: $white;
+  border-radius: 5px;
 }
 
 // Combine .form-container with padding and f-width for pretty forms.
@@ -94,7 +93,7 @@ input[type="email"],
 input[type="password"],
 input[type="search"],
 textarea{
-  @include placeholder{ color: $gray-3; }
+  @include placeholder{ color: $gray-b; }
 
   @extend %input-official;
 
@@ -104,10 +103,6 @@ textarea{
     width: 100%;
     max-width: 100%;
   }
-}
-
-textarea{
-  background-color: darken($white, 3%);
 }
 
 input[type="submit"],
@@ -183,8 +178,8 @@ button[type="submit"]{
 }
 
 .fen-website{ color: $gray-2;
-  span{ color: $pink; }
-  &:hover{ color: $pink; }
+  span{ color: $pink-fen; }
+  &:hover{ color: $pink-fen; }
 }
 
 %transition{

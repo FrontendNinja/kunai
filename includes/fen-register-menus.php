@@ -19,11 +19,10 @@ function fen_register_menus(){
 function fen_main_nav(){
   wp_nav_menu(array(
     'theme_location' => 'main-nav',
-    'menu'            => 'main-nav', // The menu that is desired; accepts (matching in order) id, slug, name
+    'menu'            => 'main-nav',
     // 'container'       => 'nav',
-    'container_class' => 'collapse navbar-collapse', // Bootstrap collapse needed classes
+    'container_class' => '',
     'container_id'    => 'main-nav',
-    'menu_class'      => 'nav navbar-nav', // Bootstrap collapse needed classes
     'menu_id'         => 'main-nav-menu',
     'echo'            => true,
     'fallback_cb'     => false,
@@ -40,9 +39,9 @@ function fen_main_nav(){
 function fen_footer_main_nav(){
   wp_nav_menu(array(
     'theme_location' => 'footer-main-nav',
-    'menu'            => 'footer-main-nav', // The menu that is desired; accepts (matching in order) id, slug, name
+    'menu'            => 'footer-main-nav',
     'container'       => 'nav',
-    'container_class' => 'footer-main-nav-container', // You can put the col-xs-X here
+    'container_class' => 'footer-main-nav-container',
     'container_id'    => 'footer-main-nav',
     'menu_class'      => 'menu',
     'menu_id'         => 'footer-main-nav-menu',

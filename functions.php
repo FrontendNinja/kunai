@@ -1,9 +1,8 @@
 <?php
 /* You shouldn't add functions here, just includes. */
 
-/* FEN Control Panel */
-require_once( 'lib/fen-admin-page-framework.3.8.15/library/admin-page-framework/admin-page-framework.php' );
-require_once( 'lib/fen-admin-page-framework.3.8.15/admin-page-fen-loader.php' );
+/* Fen Control Panel */
+require_once( 'includes/admin-page/fen-control-panel.php' );
 
 /* FEN Filters, Actions and Registers */
 require_once( 'includes/admin/add-theme-support.php' );
